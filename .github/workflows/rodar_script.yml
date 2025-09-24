@@ -2,6 +2,11 @@ name: Rodar meu_script.py
 
 on:
   workflow_dispatch:  # Permite rodar manualmente ou via API (n8n)
+    inputs:
+      resumeUrl:
+        description: 'URL usada pelo n8n para retomar/pausar quando wait-for-completion é usado'
+        required: false
+        default: ''
 
 jobs:
   run-python-script:
@@ -30,5 +35,6 @@ jobs:
               SHAREPOINT_CLIENT_ID: ${{ secrets.SHAREPOINT_CLIENT_ID }}
               SHAREPOINT_CLIENT_SECRET: ${{ secrets.SHAREPOINT_CLIENT_SECRET }}
         run: python meu_script.py
+
 
 
