@@ -1,19 +1,29 @@
-name: Executar Python via Dispatch
+name: Rodar meu_script.py
 
 on:
-  repository_dispatch:
-    types: [run_python_job]
+  workflow_dispatch:  # Permite rodar manualmente ou via API (n8n)
 
 jobs:
-  run-python:
+  run-python-script:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
+      # 1. Baixa o código do repositório
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      # 2. Configura o Python
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-      - name: Rodar script Python
+          python-version: '3.11' # ou a versão que você usa
+
+      # 3. Instala dependências (se houver)
+      - name: Instalar dependências
         run: |
-          python meu_script.py
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # 4. Executa o script
+      - name: Rodar meu_script.py
+        run: python meu_script.py
 
